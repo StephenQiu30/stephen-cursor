@@ -1,0 +1,16 @@
+.DS_Store
+node_modules/
+npm-debug.log*
+package-lock.json
+dist/
+coverage/
+artifacts/
+reports/
+test-results/
+playwright-report/
+tmp/
+temp/
+.tmp/
+.env
+.env.*
+!.env.example

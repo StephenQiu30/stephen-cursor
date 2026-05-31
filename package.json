@@ -1,0 +1,28 @@
+{
+  "name": "cursor-agent-standards",
+  "version": "1.0.0",
+  "description": "Cursor agent workflow standards with roles, harness workflows, and Git/PR conventions.",
+  "main": "index.js",
+  "scripts": {
+    "test": "bash scripts/validate-repository.sh"
+  },
+  "keywords": [
+    "cursor",
+    "agents",
+    "harness",
+    "tdd",
+    "smart",
+    "workflow"
+  ],
+  "author": "Stephen Qiu",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StephenQiu30/stephen-curosr.git"
+  },
+  "bugs": {
+    "url": "https://github.com/StephenQiu30/stephen-curosr/issues"
+  },
+  "homepage": "https://github.com/StephenQiu30/stephen-curosr#readme",
+  "license": "MIT",
+  "type": "commonjs"
+}
