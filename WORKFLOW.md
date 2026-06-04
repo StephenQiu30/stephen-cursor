@@ -116,7 +116,7 @@ The agent should be able to talk to Linear, either via a configured Linear MCP s
 ## Related skills
 
 - `linear`: interact with Linear.
-- `commit`: produce clean, logical commits during implementation.
+- `commit`: produce clean, logical commits during implementation; follow `## Commit discipline` and `.cursor/skills/commit/SKILL.md`.
 - `push`: keep remote branch current and publish updates.
 - `pull`: keep branch updated with latest `origin/main` before handoff.
 - `land`: when ticket reaches `Merging`, explicitly open and follow `.cursor/skills/land/SKILL.md`, which includes the `land` loop.
