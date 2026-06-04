@@ -24,7 +24,7 @@ GitHub: <https://github.com/StephenQiu30/stephen-curosr.git>
 3. Cursor 多角色协作时 PM、Explorer、Builder、Tester、Reporter 如何分工。
 4. 如何在 Cursor 工作流中持续执行 MVP、TDD、SMART 规范。
 5. 如何通过 `WORKFLOW.md` 对齐 OpenAI Symphony 的 Linear ticket 编排方式。
-6. 如何使用 harness skills 补齐本地启动、浏览器证据和 Linear 闭环。
+6. 如何使用 Harness + [obra/superpowers](https://github.com/obra/superpowers) skills 保证 TDD、端到端证据和 Linear 闭环。
 
 ## 目录功能
 
@@ -32,12 +32,13 @@ GitHub: <https://github.com/StephenQiu30/stephen-curosr.git>
 2. `CURSOR.local.md`：当前项目中的局部规范配置，用于和全局规则区分。
 3. `WORKFLOW.md`：OpenAI Symphony 风格的 Linear ticket 调度契约与 per-ticket Agent SOP。
 4. `.cursor/agents/`：Cursor 角色定义目录。
-5. `.cursor/skills/`：Cursor 可复用工作流目录，当前承载 harness、Linear、debug 和 Git 收口相关流程。
+5. `.cursor/skills/`：Cursor 可复用工作流目录，含 Harness、Superpowers（TDD/计划/验证）、Linear、debug 和 Git 收口；总入口为 `harness-quality-gate`。技能**只**落在此目录，不使用 `.agents/`。
 6. `docs/`：项目文档骨架目录，保留分类目录和 README，正文文档按任务需要再归档。
 7. `.github/workflows/ci.yml`：GitHub Actions CI，用于检查模板基础结构。
 8. `package.json`：Node 项目元信息和验证入口。
 9. `LICENSE`：开源许可证。
 10. `CONTRIBUTING.md`：贡献说明。
+11. `scripts/vendor-superpowers-skills.sh`：从 [obra/superpowers](https://github.com/obra/superpowers) 拉取技能到 `.cursor/skills/`（勿用 `npx skills add`，它会写到 `.agents/`）。
 
 ## 文件结构
 
@@ -63,6 +64,10 @@ cursor/
 │       ├── harness-local-server/
 │       ├── harness-playwright-evidence/
 │       ├── harness-linear-loop/
+│       ├── harness-quality-gate/
+│       ├── test-driven-development/
+│       ├── using-superpowers/
+│       ├── verification-before-completion/
 │       ├── debug/
 │       ├── commit/
 │       ├── pull/

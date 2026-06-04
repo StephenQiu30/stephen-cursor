@@ -10,6 +10,12 @@ required_files=(
   ".cursor/skills/harness-local-server/SKILL.md"
   ".cursor/skills/harness-playwright-evidence/SKILL.md"
   ".cursor/skills/harness-linear-loop/SKILL.md"
+  ".cursor/skills/harness-quality-gate/SKILL.md"
+  ".cursor/skills/using-superpowers/SKILL.md"
+  ".cursor/skills/test-driven-development/SKILL.md"
+  ".cursor/skills/executing-plans/SKILL.md"
+  ".cursor/skills/verification-before-completion/SKILL.md"
+  "scripts/vendor-superpowers-skills.sh"
   ".cursor/skills/debug/SKILL.md"
   ".cursor/skills/commit/SKILL.md"
   ".cursor/skills/pull/SKILL.md"
@@ -39,5 +45,10 @@ grep -q "Human Review" WORKFLOW.md
 grep -q 'test:`、`docs:`、`impl:`、`feat:`、`chore:`、`refactor:`' CURSOR.md
 grep -q "test-first 提交顺序" CURSOR.md
 grep -q '`impl:` commit' CURSOR.md
+grep -q "harness-quality-gate" WORKFLOW.md
+grep -q "superpowers" WORKFLOW.md
+
+test ! -d .agents
+test ! -f skills-lock.json
 
 git diff --check
