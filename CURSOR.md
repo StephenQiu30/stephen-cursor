@@ -7,7 +7,7 @@
 1. 项目开发遵循 MVP 原则，以最小可用功能闭环为优先，不对功能、架构、流程或文档进行过度设计。
 2. 单个文件应保持清晰、可维护，原则上不要超过 200-500 行；当文件持续膨胀时，应按职责拆分为更小的模块。
 3. SDD 是实现前置门禁：涉及架构、数据模型、接口、状态机、队列、权限或长期流程约束的任务，先写或更新设计，再写代码。
-4. OpenSpec 是仓库内 SDD 规范层：`openspec/specs/` 记录当前事实，`openspec/changes/` 承载增量变更，`docs/design/` 补充设计解释。
+4. OpenSpec 是仓库内 SDD 规范层：`openspec/specs/` 记录当前事实，`openspec/changes/` 承载提案、规格增量、设计和任务拆解，任务执行默认沿 OpenSpec artifacts 推进。
 5. 项目开发遵循 TDD 思想，新增或修改功能时优先使用红绿测试流程：先编写失败测试，再实现最小代码使测试通过，最后在测试保护下进行必要重构。
 6. 项目开发遵循 SMART 软件工程思想，需求、任务和验收标准应尽量做到具体、可衡量、可达成、相关且有明确时间或阶段边界。
 7. 测试只约束当前项目已接受的行为边界；不要为了兼容旧行为、灰度双轨、临时兜底或未被规范接受的历史分支补写兼容性测试。
@@ -17,11 +17,11 @@
 ## SDD / TDD / RAG 门禁
 
 1. SDD 至少说明目标、非目标、数据/接口契约、状态流、失败路径、权限边界、验证方式和迁移/回滚影响。
-2. 涉及长期行为、契约或流程约束的修改时，必须同步更新 `openspec/specs/` 中的规范，必要时再决定是否补充解释性文档。
+2. 涉及长期行为、契约或流程约束的修改时，必须先在 `openspec/changes/` 中形成 proposal/specs/design/tasks，再实现并最终同步 `openspec/specs/`。
 3. TDD 必须绑定验收标准：先证明问题或需求，再写最小实现；`test:` commit 先于 `impl:`/`feat:` commit。
 4. RAG（红绿测试）必须记录红灯命令、失败信号、绿灯命令和通过结果；不能只写“已测试”。
 5. 红灯必须能约束实现：不能是空测试、快照噪音、兼容性兜底测试或永远通过的脚本。
-6. 涉及 SDD/TDD/RAG 的 ticket、Workpad 和 PR 都必须记录规范链接、红绿证据和测试命令。
+6. 涉及 SDD/TDD/RAG 的 ticket、Workpad 和 PR 都必须记录 OpenSpec 文档链接、红绿证据和测试命令。
 
 ## TDD 执行规范
 
@@ -72,20 +72,22 @@
 2. 推荐落地顺序为 `Harness -> Orchestration -> Linear`：先补齐项目自启动和自验证，再配置 `WORKFLOW.md`，最后接入 Linear 状态机。
 3. 每个被调度的 ticket 应在隔离 workspace 中执行，Agent 只能操作当前 workspace 和本任务相关文件。
 4. `CURSOR.md` 记录长期稳定的 Cursor 行为准则；项目级 `WORKFLOW.md` 记录 Linear project、workspace root、hooks、agent command、并发数等调度配置。
-5. Agent 应先计划和设计验收方式，再实现；先复现或确认当前行为，再修改代码或文档。
-6. Agent 必须自治执行到可审查结果，只有缺少必要权限、secret、外部服务或工具时才可以阻塞。
+5. Agent 应先基于 OpenSpec change artifacts 计划和设计验收方式，再实现；先复现或确认当前行为，再修改代码或文档。
+6. 进入 `Agent Review` 时，必须对照本次任务对应的 OpenSpec proposal/specs/design/tasks 与 `openspec/specs/` 基线校验实现偏差、漏项和越界项。
+7. Agent 必须自治执行到可审查结果，只有缺少必要权限、secret、外部服务或工具时才可以阻塞。
 
 ## Linear Ticket 状态机
 
-推荐状态流为 `Backlog -> Todo -> In Progress -> Human Review -> Merging -> Done`，并保留 `Rework` 返工路径。
+推荐状态流为 `Backlog -> Todo -> In Progress -> Agent Review -> Human Review -> Merging -> Done`，并保留 `Rework` 返工路径。
 
 1. `Backlog`：不自动执行，等待人工明确移动到 `Todo`。
 2. `Todo`：可被 Symphony 或兼容 runner 拾取；拾取后应立即移动到 `In Progress`。
 3. `In Progress`：Agent 正在隔离 workspace 中执行计划、实现和验证。
-4. `Human Review`：PR、验证证据和 Workpad 已准备好，等待人工审查。
-5. `Merging`：人工批准后进入合并流程；合并前仍需检查 CI、冲突和目标分支状态。
-6. `Done`：终态，runner 不再处理。
-7. `Rework`：审查后需要返工，必须重新读取 ticket、评论、PR 反馈和当前代码状态，再重新计划。
+4. `Agent Review`：先由 agent 对照 OpenSpec 文档、验收标准和实现结果做偏差校验。
+5. `Human Review`：PR、验证证据和 Workpad 已准备好，等待人工审查。
+6. `Merging`：人工批准后进入合并流程；合并前仍需检查 CI、冲突和目标分支状态。
+7. `Done`：终态，runner 不再处理。
+8. `Rework`：审查后需要返工，必须重新读取 ticket、评论、PR 反馈和当前代码状态，再重新计划。
 
 ## Workpad 单一事实源
 
