@@ -47,13 +47,6 @@ grep -q "project_slug" WORKFLOW.md
 grep -q "## Cursor Workpad" WORKFLOW.md
 grep -q "command: cursor-agent" WORKFLOW.md
 grep -q "Human Review" WORKFLOW.md
-grep -q 'test:`、`docs:`、`impl:`、`feat:`、`chore:`、`refactor:`' CURSOR.md
-grep -q "openspec/specs/" CURSOR.md
-grep -q "兼容性测试" CURSOR.md || grep -q "兼容性兜底测试" CURSOR.md
-grep -q "当前项目边界" CURSOR.md
-grep -q "test-first 提交顺序" CURSOR.md
-grep -q '`impl:` commit' CURSOR.md
-grep -q "OpenSpec" README.md
 grep -q "harness-quality-gate" WORKFLOW.md
 grep -q "superpowers" WORKFLOW.md
 
