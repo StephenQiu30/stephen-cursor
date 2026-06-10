@@ -104,8 +104,9 @@
 5. 前端、网页和 UI 任务推荐使用 Playwright、截图、trace 或录屏作为验收证据；第一版不强制所有项目自动上传视频到 Linear。
 6. Symphony / `WORKFLOW.md` 任务必须先走 `.cursor/skills/harness-quality-gate/SKILL.md`，并按阶段调用 [obra/superpowers](https://github.com/obra/superpowers) skills（`using-superpowers`、`writing-plans`、`test-driven-development`、`executing-plans`、`verification-before-completion` 等）。
 7. 需要补齐本地启动和健康检查时，优先使用 `.cursor/skills/harness-local-server/SKILL.md`。
-8. UI 或前端任务需要端到端证据时，优先使用 `.cursor/skills/harness-playwright-evidence/SKILL.md`。
-9. 需要同步 Linear 状态、Workpad、PR 链接和证据时，优先使用 `.cursor/skills/harness-linear-loop/SKILL.md`。
+8. 浏览器交互、页面验证、表单操作或 dev server 可视化检查时，优先使用 `.cursor/skills/agent-browser/SKILL.md`。
+9. UI 或前端任务需要端到端证据时，优先使用 `.cursor/skills/harness-playwright-evidence/SKILL.md`。
+10. 需要同步 Linear 状态、Workpad、PR 链接和证据时，优先使用 `.cursor/skills/harness-linear-loop/SKILL.md`。
 
 ## Human Review 门禁
 
