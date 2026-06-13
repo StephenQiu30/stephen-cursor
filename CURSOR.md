@@ -18,10 +18,11 @@
 
 1. SDD 至少说明目标、非目标、数据/接口契约、状态流、失败路径、权限边界、验证方式和迁移/回滚影响。
 2. 涉及长期行为、契约或流程约束的修改时，必须先在 `openspec/changes/` 中形成 proposal/specs/design/tasks，再实现并最终同步 `openspec/specs/`。
-3. TDD 必须绑定验收标准：先证明问题或需求，再写最小实现；`test:` commit 先于 `impl:`/`feat:` commit。
-4. RAG（红绿测试）必须记录红灯命令、失败信号、绿灯命令和通过结果；不能只写“已测试”。
-5. 红灯必须能约束实现：不能是空测试、快照噪音、兼容性兜底测试或永远通过的脚本。
-6. 涉及 SDD/TDD/RAG 的 ticket、Workpad 和 PR 都必须记录 OpenSpec 文档链接、红绿证据和测试命令。
+3. 每个任务都必须绑定一个 OpenSpec change；没有对应 change 的实现、验收和 review 视为流程不完整。
+4. TDD 必须绑定验收标准：先证明问题或需求，再写最小实现；`test:` commit 先于 `impl:`/`feat:` commit。
+5. RAG（红绿测试）必须记录红灯命令、失败信号、绿灯命令和通过结果；不能只写“已测试”。
+6. 红灯必须能约束实现：不能是空测试、快照噪音、兼容性兜底测试或永远通过的脚本。
+7. 涉及 SDD/TDD/RAG 的 ticket、Workpad 和 PR 都必须记录 OpenSpec 文档链接、红绿证据和测试命令。
 
 ## TDD 执行规范
 
@@ -74,7 +75,9 @@
 4. `CURSOR.md` 记录长期稳定的 Cursor 行为准则；项目级 `WORKFLOW.md` 记录 Linear project、workspace root、hooks、agent command、并发数等调度配置。
 5. Agent 应先基于 OpenSpec change artifacts 计划和设计验收方式，再实现；先复现或确认当前行为，再修改代码或文档。
 6. 进入 `Agent Review` 时，必须对照本次任务对应的 OpenSpec proposal/specs/design/tasks 与 `openspec/specs/` 基线校验实现偏差、漏项和越界项。
-7. Agent 必须自治执行到可审查结果，只有缺少必要权限、secret、外部服务或工具时才可以阻塞。
+7. `Agent Review` 通过前，必须确认对应 OpenSpec 任务已经校验完成并归档，未归档的 change 不得进入 `Human Review`。
+8. Agent 必须自治执行到可审查结果，只有缺少必要权限、secret、外部服务或工具时才可以阻塞。
+9. `Rework` 必须回到同一条 OpenSpec 任务闭环中继续：补齐 specs/design/tasks、重新执行 TDD 验证、再次进入 `Agent Review`，直到通过归档门禁。
 
 ## Linear Ticket 状态机
 
@@ -83,8 +86,8 @@
 1. `Backlog`：不自动执行，等待人工明确移动到 `Todo`。
 2. `Todo`：可被 Symphony 或兼容 runner 拾取；拾取后应立即移动到 `In Progress`。
 3. `In Progress`：Agent 正在隔离 workspace 中执行计划、实现和验证。
-4. `Agent Review`：先由 agent 对照 OpenSpec 文档、验收标准和实现结果做偏差校验。
-5. `Human Review`：PR、验证证据和 Workpad 已准备好，等待人工审查。
+4. `Agent Review`：先由 agent 对照 OpenSpec 文档、验收标准和实现结果做偏差校验，并确认对应 OpenSpec change 已完成校验与归档。
+5. `Human Review`：只有在 OpenSpec change 已归档后，PR、验证证据和 Workpad 才可进入人工审查。
 6. `Merging`：人工批准后进入合并流程；合并前仍需检查 CI、冲突和目标分支状态。
 7. `Done`：终态，runner 不再处理。
 8. `Rework`：审查后需要返工，必须重新读取 ticket、评论、PR 反馈和当前代码状态，再重新计划。
