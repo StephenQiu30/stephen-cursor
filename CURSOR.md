@@ -88,7 +88,7 @@
 3. `In Progress`：Agent 正在隔离 workspace 中执行计划、实现和验证。
 4. `Agent Review`：先由 agent 对照 OpenSpec 文档、验收标准和实现结果做偏差校验，并确认对应 OpenSpec change 已完成校验与归档。
 5. `Human Review`：只有在 OpenSpec change 已归档后，PR、验证证据和 Workpad 才可进入人工审查。
-6. `Merging`：人工批准后进入合并流程；合并前仍需检查 CI、冲突和目标分支状态。
+6. `Merging`：人工批准后进入合并流程；合并前仍需检查 CI、冲突和目标分支状态，并先为即将落地的准确提交创建并推送 annotated pre-merge tag。
 7. `Done`：终态，runner 不再处理。
 8. `Rework`：审查后需要返工，必须重新读取 ticket、评论、PR 反馈和当前代码状态，再重新计划。
 
@@ -203,7 +203,7 @@
 2. PR 标题和描述应使用中文，说明修改内容、验证方式、影响范围和风险。
 3. 同一任务已有 PR 时，应优先更新现有 PR，不要无意义创建重复 PR。
 4. PR 合并前必须检查状态、CI、冲突和目标分支最新状态；不能只因为代码已完成就直接合并。
-5. 每次 PR 合并前必须先给当前目标分支状态打 tag，作为合并前回滚点；tag 名称应能体现合并对象和日期，例如 `pre-merge-pr12-20260508`。
+5. 每次 PR 合并前必须先为即将落地的准确提交创建并推送 annotated pre-merge tag，作为合并前回滚点；tag 名建议体现 issue/PR 与日期，例如 `pre-merge-pr12-20260508`。
 6. 多个 PR 需要合并时，应按用户指定顺序逐个合并；每合并一个 PR 后都要重新检查后续 PR 的冲突、CI 和合并状态。
 7. PR 合并后应同步本地分支状态，并执行必要的仓库健康检查，确认没有合并后遗留的工作区污染或格式问题。
 8. 功能 PR 描述必须包含 Test-first Evidence、Tests added、Commands run、Result、Agent Usage 和 Reviewer Checklist；Reviewer 应先审 `test:` commit，再审 `impl:` commit。
