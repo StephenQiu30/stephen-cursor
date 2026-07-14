@@ -93,7 +93,6 @@
 ## Harness 能力要求
 
 1. 项目应提供一键启动入口，例如 `scripts/start-local.sh`、`make start` 或等价命令。
-2. 项目应提供统一验证入口，例如 `bash scripts/validate-repository.sh`、`scripts/verify.sh` 或等价命令。
 3. 项目应说明 `.env.example`、secret 来源、本机与 CI 差异、日志位置和常见故障处理方式。
 4. Agent 应优先使用可重复验证方式证明变更有效，包括测试输出、构建结果、接口响应、日志、截图、trace 或录屏。
 5. 前端、网页和 UI 任务推荐使用 Playwright、截图、trace 或录屏作为验收证据；第一版不强制所有项目自动上传视频到 Linear。
@@ -197,7 +196,6 @@
 7. PR 合并后应同步本地分支状态，并执行必要的仓库健康检查，确认没有合并后遗留的工作区污染或格式问题。
 8. 功能 PR 描述必须包含 Test-first Evidence、Tests added、Commands run、Result、Agent Usage 和 Reviewer Checklist；Reviewer 应先审 `test:` commit，再审 `impl:` commit。
 9. PR 描述必须严格使用合法 Markdown 编写：各部分使用标题层级，分组内容使用列表，命令和输出使用 fenced code block，Reviewer Checklist 使用 GitHub task-list checkbox；不得提交纯文本堆叠、错误标题层级或无法在 GitHub 正常渲染的随意格式。
-10. CI 必须包含完整测试入口，至少运行仓库结构检查、Markdown 空白检查和 `bash scripts/validate-repository.sh`；项目增加真实单元、集成、UI、快照或性能测试后，应把对应命令接入统一验证脚本或 CI 明确步骤。
 
 ## PR 模板要求
 
