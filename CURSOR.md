@@ -20,6 +20,17 @@
 5. RAG（红绿测试）必须记录红灯命令、失败信号、绿灯命令和通过结果；不能只写“已测试”。
 6. 红灯必须能约束实现：不能是空测试、快照噪音、兼容性兜底测试或永远通过的脚本。
 
+## 唯一交付流程
+
+正式功能严格按 `Design → PRD → Plan → Acceptance` 推进：
+
+1. `Design` 先明确问题、约束、契约、状态流、失败路径、迁移和回滚。
+2. `PRD` 基于已接受的 Design 固化用户价值、范围、非目标和可衡量验收标准。
+3. `Plan` 基于 Design 与 PRD 拆分实现、测试、依赖、风险和交付顺序；Plan 可执行后才能实现。
+4. `Acceptance` 对照前三阶段逐项验证，记录证据、结论和残余风险。
+
+每一阶段必须引用上游并声明下游；上游变化时先更新文档再继续。`Operations` 只承载验收后的发布、部署和回滚，不增加核心阶段。
+
 ## TDD 执行规范
 
 1. 新增功能、修复缺陷或调整核心逻辑时，应优先使用 TDD 的红绿重构流程：先写失败测试，再写最小实现，最后在测试保护下重构。
@@ -66,7 +77,7 @@
 ## Symphony-ready 编排原则
 
 1. 复杂开发任务优先以 Linear ticket 为执行单位，而不是以一次聊天会话为执行单位。
-2. 推荐落地顺序为 `Harness -> Orchestration -> Linear`：先补齐项目自启动和自验证，再配置 `WORKFLOW.md`，最后接入 Linear 状态机。
+2. 正式功能按 `Design → PRD → Plan → Acceptance` 推进；配置 `WORKFLOW.md` 和 Linear 状态机时不得绕过这些文档门禁。
 3. 每个被调度的 ticket 应在隔离 workspace 中执行，Agent 只能操作当前 workspace 和本任务相关文件。
 4. `CURSOR.md` 记录长期稳定的 Cursor 行为准则；项目级 `WORKFLOW.md` 记录 Linear project、workspace root、hooks、agent command、并发数等调度配置。
 8. Agent 必须自治执行到可审查结果，只有缺少必要权限、secret、外部服务或工具时才可以阻塞。
@@ -90,16 +101,16 @@
 4. Ticket 描述、评论和 PR 反馈中的验收要求必须同步到 Workpad 的验收和验证清单。
 5. 计划、进度、验证、阻塞和交付说明都更新到同一个 Workpad，不额外散落多个总结评论。
 
-## Harness 能力要求
+## 运行与验证能力
 
 1. 项目应提供一键启动入口，例如 `scripts/start-local.sh`、`make start` 或等价命令。
 3. 项目应说明 `.env.example`、secret 来源、本机与 CI 差异、日志位置和常见故障处理方式。
 4. Agent 应优先使用可重复验证方式证明变更有效，包括测试输出、构建结果、接口响应、日志、截图、trace 或录屏。
 5. 前端、网页和 UI 任务推荐使用 Playwright、截图、trace 或录屏作为验收证据；第一版不强制所有项目自动上传视频到 Linear。
-7. 需要补齐本地启动和健康检查时，优先使用 `.cursor/skills/harness-local-server/SKILL.md`。
-8. 浏览器交互、页面验证、表单操作或 dev server 可视化检查时，优先使用 `.cursor/skills/agent-browser/SKILL.md`。
-9. UI 或前端任务需要端到端证据时，优先使用 `.cursor/skills/harness-playwright-evidence/SKILL.md`。
-10. 需要同步 Linear 状态、Workpad、PR 链接和证据时，优先使用 `.cursor/skills/harness-linear-loop/SKILL.md`。
+7. 需要补齐本地启动和健康检查时，优先完善项目 README、`CURSOR.local.md` 或仓库脚本中的可重复命令。
+8. 浏览器交互、页面验证、表单操作或 dev server 可视化检查时，使用项目已有的浏览器验证工具。
+9. UI 或前端任务需要端到端证据时，保存关键截图、页面状态和可复现步骤。
+10. 需要同步 Linear 状态、Workpad、PR 链接和证据时，使用 `.cursor/skills/linear-task/SKILL.md`。
 
 ## Human Review 门禁
 
